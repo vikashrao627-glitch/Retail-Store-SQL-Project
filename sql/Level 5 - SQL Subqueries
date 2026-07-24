@@ -1,0 +1,183 @@
+/*
+======================================================================
+                    RETAIL STORE MANAGEMENT SYSTEM
+======================================================================
+
+Project      : Retail Store SQL Project
+Module       : Level 5 - SQL Subqueries
+Database     : MySQL
+SQL Version  : MySQL 8.0+
+Created By   : Vikash Rao
+
+----------------------------------------------------------------------
+Description:
+This script demonstrates different types of SQL subqueries used
+to retrieve advanced business insights. It includes single-row,
+multi-row, correlated subqueries, and logical operators for
+filtering and analyzing retail store data.
+
+Topics Covered:
+✔ Single-Row Subqueries
+✔ Multi-Row Subqueries
+✔ Correlated Subqueries
+✔ IN Operator
+✔ NOT IN Operator
+✔ Aggregate Functions
+✔ Business Analysis Queries
+
+Purpose:
+To understand how subqueries can simplify complex SQL problems
+and generate meaningful business reports.
+
+======================================================================
+*/
+
+-- =====================================================
+-- Query 1
+-- Retrieve products priced higher than the average price
+-- =====================================================
+
+SELECT
+    product_id,
+    name AS product_name,
+    category,
+    price
+FROM products
+WHERE price >
+(
+    SELECT AVG(price)
+    FROM products
+);
+
+-- =====================================================
+-- Query 2
+-- Display customers who have placed at least one order
+-- =====================================================
+
+SELECT
+    customer_id,
+    name AS customer_name,
+    email,
+    phone
+FROM customers
+WHERE customer_id IN
+(
+    SELECT customer_id
+    FROM orders
+);
+
+-- =====================================================
+-- Query 3
+-- Find orders whose value is greater than the customer's
+-- average order amount (Correlated Subquery)
+-- =====================================================
+
+SELECT
+    o.order_id,
+    o.customer_id,
+    o.order_date,
+    o.total_amount
+FROM orders AS o
+WHERE o.total_amount >
+(
+    SELECT AVG(o2.total_amount)
+    FROM orders AS o2
+    WHERE o2.customer_id = o.customer_id
+);
+
+-- =====================================================
+-- Query 4
+-- Display customers who have never placed an order
+-- =====================================================
+
+SELECT
+    customer_id,
+    name AS customer_name,
+    email,
+    phone
+FROM customers
+WHERE customer_id NOT IN
+(
+    SELECT customer_id
+    FROM orders
+);
+
+-- =====================================================
+-- Query 5
+-- Find products that have never been purchased
+-- =====================================================
+
+SELECT
+    product_id,
+    name AS product_name,
+    category,
+    price,
+    stock_quantity
+FROM products
+WHERE product_id NOT IN
+(
+    SELECT product_id
+    FROM order_items
+);
+
+-- =====================================================
+-- Query 6
+-- Retrieve the highest-value order for each customer
+-- =====================================================
+
+SELECT
+    o.order_id,
+    o.customer_id,
+    o.order_date,
+    o.total_amount
+FROM orders AS o
+WHERE o.total_amount =
+(
+    SELECT MAX(o2.total_amount)
+    FROM orders AS o2
+    WHERE o2.customer_id = o.customer_id
+);
+
+-- =====================================================
+-- Query 7
+-- Display customer information with their highest-value order
+-- =====================================================
+
+SELECT
+    c.customer_id,
+    c.name AS customer_name,
+    o.order_id,
+    o.order_date,
+    o.total_amount
+FROM customers AS c
+INNER JOIN orders AS o
+ON c.customer_id = o.customer_id
+WHERE o.total_amount =
+(
+    SELECT MAX(o2.total_amount)
+    FROM orders AS o2
+    WHERE o2.customer_id = o.customer_id
+)
+ORDER BY c.customer_id;
+
+/*
+======================================================================
+                  END OF LEVEL 5 - SQL SUBQUERIES
+======================================================================
+
+Total Queries : 7
+
+Skills Practiced:
+✔ Single-Row Subqueries
+✔ Multi-Row Subqueries
+✔ Correlated Subqueries
+✔ IN & NOT IN
+✔ Aggregate Functions
+✔ Advanced Data Filtering
+✔ Business Intelligence Queries
+
+Next Module:
+Level 6 - SQL Views & Indexes
+
+======================================================================
+*/

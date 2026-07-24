@@ -1,0 +1,142 @@
+/*
+=========================================================
+Project   : Retail Store Management System
+Module    : Basic SQL Queries
+Database  : MySQL
+Purpose   : Practice fundamental SQL operations such as
+            filtering, sorting, and retrieving records.
+=========================================================
+*/
+
+-- =====================================================
+-- Query 1
+-- Display customer names and email addresses
+-- =====================================================
+
+SELECT
+    name,
+    email
+FROM customers;
+
+-- =====================================================
+-- Query 2
+-- Retrieve complete product information
+-- =====================================================
+
+SELECT *
+FROM products;
+
+-- =====================================================
+-- Query 3
+-- Display available product categories
+-- =====================================================
+
+SELECT DISTINCT category
+FROM products;
+
+-- =====================================================
+-- Query 4
+-- Find products costing more than ₹1,000
+-- =====================================================
+
+SELECT *
+FROM products
+WHERE price > 1000;
+
+-- =====================================================
+-- Query 5
+-- Show products with prices between ₹2,000 and ₹5,000
+-- =====================================================
+
+SELECT *
+FROM products
+WHERE price BETWEEN 2000 AND 5000;
+
+-- =====================================================
+-- Query 6
+-- Retrieve details of selected customers
+-- =====================================================
+
+SELECT *
+FROM customers
+WHERE customer_id IN (5, 8, 12, 18, 25);
+
+-- =====================================================
+-- Query 7
+-- Find customers whose names begin with 'A'
+-- =====================================================
+
+SELECT *
+FROM customers
+WHERE name LIKE 'A%';
+
+-- =====================================================
+-- Query 8
+-- List products priced below ₹3,000
+-- =====================================================
+
+SELECT *
+FROM products
+WHERE price < 3000;
+
+-- =====================================================
+-- Query 9
+-- Display product names with prices
+-- ordered from highest to lowest
+-- =====================================================
+
+SELECT
+    name,
+    price
+FROM products
+ORDER BY price DESC;
+
+-- =====================================================
+-- Query 10
+-- Sort products by price, then alphabetically by name
+-- =====================================================
+
+SELECT
+    name,
+    price
+FROM products
+ORDER BY
+    price ASC,
+    name ASC;
+
+-- ===================== End of Basic SQL Queries =====================
+
+/*
+======================================================================
+                    RETAIL STORE MANAGEMENT SYSTEM
+======================================================================
+
+Project      : Retail Store SQL Project
+Module       : Level 1 - Basic SQL Queries
+Database     : MySQL
+SQL Version  : MySQL 8.0+
+Created By   : Vikash Rao
+
+----------------------------------------------------------------------
+Description:
+This script demonstrates fundamental SQL concepts using a Retail Store
+database. It covers basic data retrieval, filtering, sorting, and
+searching techniques that are commonly used in business reporting and
+data analysis.
+
+Topics Covered:
+✔ SELECT Statement
+✔ DISTINCT
+✔ WHERE Clause
+✔ IN Operator
+✔ BETWEEN Operator
+✔ LIKE Operator
+✔ ORDER BY Clause
+✔ Filtering & Sorting Records
+
+Purpose:
+To practice beginner-level SQL queries and understand how businesses
+retrieve useful information from transactional databases.
+
+======================================================================
+*/

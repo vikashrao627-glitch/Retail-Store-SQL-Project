@@ -1,0 +1,166 @@
+/*
+======================================================================
+                    RETAIL STORE MANAGEMENT SYSTEM
+======================================================================
+
+Project      : Retail Store SQL Project
+Module       : Level 3 - Aggregate Functions & Reporting
+Database     : MySQL
+SQL Version  : MySQL 8.0+
+Created By   : Vikash Rao
+
+----------------------------------------------------------------------
+Description:
+This script demonstrates SQL aggregate functions to summarize
+business data. It includes revenue analysis, customer statistics,
+sales reporting, and category-wise insights using GROUP BY
+and aggregate functions.
+
+Topics Covered:
+✔ COUNT()
+✔ SUM()
+✔ AVG()
+✔ ROUND()
+✔ DISTINCT
+✔ GROUP BY
+✔ ORDER BY
+✔ Business Reporting
+
+Purpose:
+To generate summary reports and business insights from
+transactional retail data using SQL aggregate functions.
+
+======================================================================
+*/
+
+-- =====================================================
+-- Query 1
+-- Count the total number of customer orders
+-- =====================================================
+
+SELECT
+    COUNT(*) AS total_orders
+FROM orders;
+
+-- =====================================================
+-- Query 2
+-- Calculate overall revenue generated
+-- =====================================================
+
+SELECT
+    SUM(total_amount) AS overall_revenue
+FROM orders;
+
+-- =====================================================
+-- Query 3
+-- Find the average order amount
+-- =====================================================
+
+SELECT
+    ROUND(AVG(total_amount), 2) AS avg_order_amount
+FROM orders;
+
+-- =====================================================
+-- Query 4
+-- Count unique customers who placed orders
+-- =====================================================
+
+SELECT
+    COUNT(DISTINCT customer_id) AS active_customers
+FROM orders;
+
+-- =====================================================
+-- Query 5
+-- Display total orders placed by each customer
+-- =====================================================
+
+SELECT
+    customer_id,
+    COUNT(order_id) AS order_count
+FROM orders
+GROUP BY customer_id
+ORDER BY order_count DESC;
+
+-- =====================================================
+-- Query 6
+-- Calculate total spending for every customer
+-- =====================================================
+
+SELECT
+    customer_id,
+    SUM(total_amount) AS customer_spending
+FROM orders
+GROUP BY customer_id
+ORDER BY customer_spending DESC;
+
+-- =====================================================
+-- Query 7
+-- Find quantity of products sold by category
+-- =====================================================
+
+SELECT
+    p.category,
+    SUM(oi.quantity) AS units_sold
+FROM products AS p
+INNER JOIN order_items AS oi
+ON p.product_id = oi.product_id
+GROUP BY p.category
+ORDER BY units_sold DESC;
+
+-- =====================================================
+-- Query 8
+-- Calculate average product price for each category
+-- =====================================================
+
+SELECT
+    category,
+    ROUND(AVG(price),2) AS avg_category_price
+FROM products
+GROUP BY category
+ORDER BY avg_category_price DESC;
+
+-- =====================================================
+-- Query 9
+-- Show daily order count
+-- =====================================================
+
+SELECT
+    DATE(order_date) AS sales_date,
+    COUNT(order_id) AS daily_orders
+FROM orders
+GROUP BY DATE(order_date)
+ORDER BY sales_date;
+
+-- =====================================================
+-- Query 10
+-- Calculate total payment collected by payment method
+-- =====================================================
+
+SELECT
+    method AS payment_mode,
+    SUM(amount_paid) AS total_collection
+FROM payments
+GROUP BY method
+ORDER BY total_collection DESC;
+
+/*
+======================================================================
+          END OF LEVEL 3 - AGGREGATE FUNCTIONS & REPORTING
+======================================================================
+
+Total Queries : 10
+
+Skills Practiced:
+✔ Aggregate Functions
+✔ GROUP BY
+✔ DISTINCT
+✔ Revenue Analysis
+✔ Customer Analytics
+✔ Sales Reporting
+✔ Business Insights
+
+Next Module:
+Level 4 - SQL Joins
+
+======================================================================
+*/

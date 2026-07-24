@@ -1,0 +1,103 @@
+/*
+======================================================================
+                    RETAIL STORE MANAGEMENT SYSTEM
+======================================================================
+
+Project      : Retail Store SQL Project
+Module       : Level 2 - Filtering & Data Formatting
+Database     : MySQL
+SQL Version  : MySQL 8.0+
+Created By   : Vikash Rao
+
+----------------------------------------------------------------------
+Description:
+This script focuses on filtering records, renaming columns,
+creating calculated fields, and formatting output using SQL
+functions. These queries help generate clean and meaningful
+business reports.
+
+Topics Covered:
+✔ LEFT JOIN
+✔ IS NULL
+✔ Column Aliases (AS)
+✔ Calculated Columns
+✔ CONCAT() Function
+✔ Data Formatting
+
+Purpose:
+To understand how SQL can be used to clean, organize, and
+present data for business reporting and analysis.
+
+======================================================================
+*/
+
+-- =====================================================
+-- Query 1
+-- Identify orders that do not have matching customer records
+-- =====================================================
+
+SELECT
+    o.order_id,
+    o.customer_id,
+    o.order_date,
+    o.status,
+    o.total_amount
+FROM orders AS o
+LEFT JOIN customers AS c
+ON o.customer_id = c.customer_id
+WHERE c.customer_id IS NULL;
+
+-- =====================================================
+-- Query 2
+-- Display customer details with user-friendly column names
+-- =====================================================
+
+SELECT
+    name AS customer_name,
+    email AS customer_email
+FROM customers;
+
+-- =====================================================
+-- Query 3
+-- Calculate the total amount for each ordered product
+-- =====================================================
+
+SELECT
+    order_item_id,
+    order_id,
+    product_id,
+    quantity,
+    item_price,
+    (quantity * item_price) AS line_total
+FROM order_items;
+
+-- =====================================================
+-- Query 4
+-- Merge customer name and phone number into one field
+-- =====================================================
+
+SELECT
+    customer_id,
+    CONCAT(name, ' | ', phone) AS contact_details
+FROM customers;
+
+/*
+======================================================================
+               END OF LEVEL 2 - FILTERING & FORMATTING
+======================================================================
+
+Total Queries : 4
+
+Skills Practiced:
+✔ LEFT JOIN
+✔ Filtering Missing Records
+✔ Column Aliases
+✔ Calculated Columns
+✔ CONCAT() Function
+✔ Business Report Formatting
+
+Next Module:
+Level 3 - Aggregate Functions & GROUP BY
+
+======================================================================
+*/

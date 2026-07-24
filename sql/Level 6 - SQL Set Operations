@@ -1,0 +1,95 @@
+/*
+======================================================================
+                    RETAIL STORE MANAGEMENT SYSTEM
+======================================================================
+
+Project      : Retail Store SQL Project
+Module       : Level 6 - SQL Set Operations
+Database     : MySQL
+SQL Version  : MySQL 8.0+
+Created By   : Vikash Rao
+
+----------------------------------------------------------------------
+Description:
+This script demonstrates SQL Set Operations used to combine
+and compare result sets. Since MySQL does not support the
+INTERSECT operator directly, equivalent results are achieved
+using JOIN operations.
+
+Topics Covered:
+✔ UNION
+✔ DISTINCT
+✔ INNER JOIN
+✔ Set Operations
+✔ Duplicate Removal
+✔ Business Reporting
+
+Purpose:
+To understand how SQL combines multiple result sets and
+identifies common records for business analysis.
+
+======================================================================
+*/
+
+-- =====================================================
+-- Query 1
+-- Retrieve customers who have either placed an order
+-- or submitted a product review
+-- (UNION removes duplicate records)
+-- =====================================================
+
+SELECT
+    c.customer_id,
+    c.name AS customer_name,
+    c.email
+FROM customers AS c
+INNER JOIN orders AS o
+ON c.customer_id = o.customer_id
+
+UNION
+
+SELECT
+    c.customer_id,
+    c.name AS customer_name,
+    c.email
+FROM customers AS c
+INNER JOIN product_reviews AS pr
+ON c.customer_id = pr.customer_id;
+
+-- =====================================================
+-- Query 2
+-- Display customers who have both placed orders
+-- and submitted product reviews
+-- (INTERSECT equivalent using INNER JOIN)
+-- =====================================================
+
+SELECT DISTINCT
+    c.customer_id,
+    c.name AS customer_name,
+    c.email
+FROM customers AS c
+INNER JOIN orders AS o
+ON c.customer_id = o.customer_id
+INNER JOIN product_reviews AS pr
+ON c.customer_id = pr.customer_id;
+
+/*
+======================================================================
+                END OF LEVEL 6 - SQL SET OPERATIONS
+======================================================================
+
+Total Queries : 2
+
+Skills Practiced:
+✔ UNION
+✔ DISTINCT
+✔ INNER JOIN
+✔ Set Operations
+✔ Duplicate Handling
+✔ Customer Behavior Analysis
+
+Next Module:
+Level 7 - SQL Views & Stored Procedures
+
+======================================================================
+*/

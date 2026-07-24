@@ -1,0 +1,178 @@
+/*
+======================================================================
+                    RETAIL STORE MANAGEMENT SYSTEM
+======================================================================
+
+Project      : Retail Store SQL Project
+Module       : Level 4 - SQL JOIN Operations
+Database     : MySQL
+SQL Version  : MySQL 8.0+
+Created By   : Vikash Rao
+
+----------------------------------------------------------------------
+Description:
+This script demonstrates different SQL JOIN operations to combine
+data from multiple related tables. It is useful for generating
+business reports by connecting customers, orders, products,
+payments, and order details.
+
+Topics Covered:
+✔ INNER JOIN
+✔ LEFT JOIN
+✔ RIGHT JOIN
+✔ Multi-Table JOIN
+✔ Business Reporting
+✔ Relational Database Queries
+
+Purpose:
+To understand how relational tables are connected and how JOIN
+operations help retrieve meaningful business information.
+
+======================================================================
+*/
+
+-- =====================================================
+-- Query 1
+-- Display customer details along with their order information
+-- =====================================================
+
+SELECT
+    o.order_id,
+    c.customer_id,
+    c.name AS customer_name,
+    o.order_date,
+    o.status,
+    o.total_amount
+FROM orders AS o
+INNER JOIN customers AS c
+ON o.customer_id = c.customer_id;
+
+-- =====================================================
+-- Query 2
+-- Retrieve products that appear in customer orders
+-- =====================================================
+
+SELECT
+    p.product_id,
+    p.name AS product_name,
+    p.category,
+    p.price
+FROM products AS p
+INNER JOIN order_items AS oi
+ON p.product_id = oi.product_id;
+
+-- =====================================================
+-- Query 3
+-- Display order details with payment information
+-- =====================================================
+
+SELECT
+    o.order_id,
+    o.order_date,
+    o.status,
+    o.total_amount,
+    p.payment_id,
+    p.method AS payment_mode,
+    p.amount_paid,
+    p.payment_date
+FROM orders AS o
+INNER JOIN payments AS p
+ON o.order_id = p.order_id;
+
+-- =====================================================
+-- Query 4
+-- Show all customers including those without orders
+-- =====================================================
+
+SELECT
+    c.customer_id,
+    c.name AS customer_name,
+    c.email,
+    o.order_id,
+    o.order_date,
+    o.status,
+    o.total_amount
+FROM customers AS c
+LEFT JOIN orders AS o
+ON c.customer_id = o.customer_id
+ORDER BY c.customer_id;
+
+-- =====================================================
+-- Query 5
+-- Display every product with its ordered quantity
+-- =====================================================
+
+SELECT
+    p.product_id,
+    p.name AS product_name,
+    p.category,
+    p.price,
+    oi.quantity AS ordered_quantity
+FROM products AS p
+LEFT JOIN order_items AS oi
+ON p.product_id = oi.product_id
+ORDER BY p.product_id;
+
+-- =====================================================
+-- Query 6
+-- Retrieve all payment records with corresponding orders
+-- =====================================================
+
+SELECT
+    o.order_id,
+    o.order_date,
+    o.status,
+    p.payment_id,
+    p.payment_date,
+    p.method AS payment_mode,
+    p.amount_paid
+FROM orders AS o
+RIGHT JOIN payments AS p
+ON o.order_id = p.order_id
+ORDER BY p.payment_id;
+
+-- =====================================================
+-- Query 7
+-- Generate a complete sales report by combining
+-- customers, orders, and payment details
+-- =====================================================
+
+SELECT
+    c.customer_id,
+    c.name AS customer_name,
+    c.email,
+    o.order_id,
+    o.order_date,
+    o.status,
+    o.total_amount,
+    p.payment_id,
+    p.payment_date,
+    p.method AS payment_mode,
+    p.amount_paid
+FROM customers AS c
+INNER JOIN orders AS o
+ON c.customer_id = o.customer_id
+INNER JOIN payments AS p
+ON o.order_id = p.order_id
+ORDER BY o.order_id;
+
+/*
+======================================================================
+                END OF LEVEL 4 - SQL JOIN OPERATIONS
+======================================================================
+
+Total Queries : 7
+
+Skills Practiced:
+✔ INNER JOIN
+✔ LEFT JOIN
+✔ RIGHT JOIN
+✔ Multi-Table JOIN
+✔ Relational Database Design
+✔ Business Reporting
+
+Next Module:
+Level 5 - SQL Subqueries & Views
+
+======================================================================
+*/
